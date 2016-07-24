@@ -14,6 +14,7 @@
         <title>JSP Page</title>
     </head>
     <body>
+        <p>This is a Test</p>
         <table cellpadding="10" cellspacing="0">
                 <tr>
                     <td>
