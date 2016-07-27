@@ -31,6 +31,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ServerInfo.findByIp", query = "SELECT s FROM ServerInfo s WHERE s.ip = :ip"),
     @NamedQuery(name = "ServerInfo.findByDataCenter", query = "SELECT s FROM ServerInfo s WHERE s.dataCenter = :dataCenter"),
     @NamedQuery(name = "ServerInfo.findByStatus", query = "SELECT s FROM ServerInfo s WHERE s.status = :status"),
+    @NamedQuery(name = "ServerInfo.findByCreateDate", query = "SELECT s FROM ServerInfo s WHERE s.createDate = :createDate"),
+    @NamedQuery(name = "ServerInfo.findByDestroyDate", query = "SELECT s FROM ServerInfo s WHERE s.destroyDate = :destroyDate"),
     @NamedQuery(name = "ServerInfo.findByCountryName", query = "SELECT s FROM ServerInfo s WHERE s.countryName = :countryName"),
     @NamedQuery(name = "ServerInfo.findByRegionName", query = "SELECT s FROM ServerInfo s WHERE s.regionName = :regionName"),
     @NamedQuery(name = "ServerInfo.findByCityName", query = "SELECT s FROM ServerInfo s WHERE s.cityName = :cityName"),
@@ -38,6 +40,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ServerInfo.findByLatitude", query = "SELECT s FROM ServerInfo s WHERE s.latitude = :latitude"),
     @NamedQuery(name = "ServerInfo.findByLongitude", query = "SELECT s FROM ServerInfo s WHERE s.longitude = :longitude")})
 public class ServerInfo implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,6 +55,10 @@ public class ServerInfo implements Serializable {
     private String dataCenter;
     @Column(name = "status")
     private String status;
+    @Column(name = "createDate")
+    private String createDate;
+    @Column(name = "destroyDate")
+    private String destroyDate;
     @Column(name = "countryName")
     private String countryName;
     @Column(name = "regionName")
@@ -111,6 +118,22 @@ public class ServerInfo implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(String createDate) {
+        this.createDate = createDate;
+    }
+
+    public String getDestroyDate() {
+        return destroyDate;
+    }
+
+    public void setDestroyDate(String destroyDate) {
+        this.destroyDate = destroyDate;
     }
 
     public String getCountryName() {

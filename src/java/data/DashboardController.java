@@ -76,12 +76,14 @@ public class DashboardController extends AbstractController
                 s.setIp(rs.getString(3));
                 s.setDataCenter(rs.getString(4));
                 s.setStatus(rs.getString(5));
-                s.setCountryName(rs.getString(6));
-                s.setRegionName(rs.getString(7));
-                s.setCityName(rs.getString(8));
-                s.setTimeZone(rs.getString(9));
-                s.setLatitude(rs.getDouble(10));
-                s.setLongitude(rs.getDouble(11));
+                s.setCreateDate(rs.getString(6));
+                s.setDestroyDate(rs.getString(7));
+                s.setCountryName(rs.getString(8));
+                s.setRegionName(rs.getString(9));
+                s.setCityName(rs.getString(10));
+                s.setTimeZone(rs.getString(11));
+                s.setLatitude(rs.getDouble(12));
+                s.setLongitude(rs.getDouble(13));
                 return s;
               }
         });

@@ -33,6 +33,12 @@
                         status
                     </td>
                     <td>
+                        createDate
+                    </td>
+                    <td>
+                        destroyDate
+                    </td>
+                    <td>
                         countryName
                     </td>
                     <td>
@@ -75,6 +81,12 @@
                     </td>
                     <td>
                         ${server.status}
+                    </td>
+                    <td>
+                        ${server.createDate}
+                    </td>
+                    <td>
+                        ${server.destroyDate}
                     </td>
                     <td>
                         ${server.countryName}
