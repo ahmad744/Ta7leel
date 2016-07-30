@@ -80,18 +80,20 @@
             //*********** Creat the missing slaves
             Droplet droplet = new Droplet();
             if (SlaveNb < 7) {
-                for (int i = 0; i < emDataCenters.size(); i++) {
-                    droplet = logs.newDroplet("Slave-" + emDataCenters.get(i), emDataCenters.get(i), "USER DATA HERE");
+              // for (int i = 0; i < emDataCenters.size(); i++) {
+                    //droplet = logs.newDroplet("Slave-" + emDataCenters.get(i), emDataCenters.get(i), "USER DATA HERE");
+                    droplet=dro.get(1);
                     dropLetId = droplet.getId();
                     dataCenter = droplet.getRegion().getSlug();
-                    // ip = droplet.getNetworks().getVersion4Networks().get(0).getIpAddress();//0 for public 1 for private
+                     //ip = droplet.getNetworks().getVersion4Networks().get(0).getIpAddress();//0 for public 1 for private
                     status = droplet.getStatus().toString();
                     createdDate = droplet.getCreatedDate().toString();
                     out.println("ID:" + dropLetId + "|dataCenter:" + dataCenter + "|ip:" + ip + "|status:" + status + "|createdDate:" + createdDate);
 
-                }
-                   }
-
+              // }
+                  }
+                
+            
         %>
     </body>
 </html>
