@@ -21,7 +21,8 @@
             <props>
                 <prop key="index.htm">indexController</prop>
                 <prop key="/dashboard.htm">DashboardController</prop>
-                 <prop key="/dropletluncher.htm">DropletLuncherContrller</prop>
+                <prop key="/dropletluncher.htm">DropletLuncherContrller</prop>
+                <prop key="/Analysis.htm">AnalysisController</prop>
             </props>
         </property>
     </bean>
@@ -40,5 +41,6 @@
     
     <bean name="DashboardController" class="data.DashboardController" />
     <bean name="DropletLuncherContrller" class="data.DropletLuncherContrller" />
+    <bean name="AnalysisController" class="data.AnalysisController" />
 
 </beans>
