@@ -73,6 +73,15 @@ public class AnalysisController extends AbstractController {
         // List<ServerInfo> server = new ArrayList<ServerInfo>();       
         // List<IpLogs> logs = new ArrayList<IpLogs>(); 
         int k = 1;
+        DataCenters = new ArrayList<String>();
+        DataCenters.add("nyc1");
+        //DataCenters.add("lon1");
+        DataCenters.add("fra1");
+        // DataCenters.add("sgp1");
+        //DataCenters.add("ams2");
+        // DataCenters.add("tor1");
+        DataCenters.add("blr1");
+        DigitalOcean apiClient = new DigitalOceanClient("API TOKEN HERE");
         while (k == 1) {
             CreatInsetDB();
             CheckStatus();
@@ -94,21 +103,12 @@ public class AnalysisController extends AbstractController {
 
     public List<String> Creat() throws DigitalOceanException, RequestUnsuccessfulException {
         dro = new ArrayList<Droplet>();
-        DataCenters = new ArrayList<String>();
         AddedDataCenters = new ArrayList<String>();
 
         String userData = "";
         logs = new LogsAnalysis();
-        DataCenters.add("nyc1");
-        //DataCenters.add("lon1");
-        DataCenters.add("fra1");
-        // DataCenters.add("sgp1");
-        //DataCenters.add("ams2");
-        // DataCenters.add("tor1");
-         DataCenters.add("blr1");
         List<String> avDataCenters = new ArrayList<String>();
         List<String> emDataCenters = new ArrayList<String>();
-        apiClient = new DigitalOceanClient("API TOKEN HERE");
         droplets = apiClient.getAvailableDroplets(1, null);
         dro = droplets.getDroplets();
         int SlaveNb = 0;
@@ -133,7 +133,10 @@ public class AnalysisController extends AbstractController {
                         + "yum -y install vsftpd\n"
                         + "systemctl enable vsftpd\n"
                         + "systemctl start vsftpd\n"
-                        + "yum -y install ftp";
+                        + "yum -y install ftp\n"
+                        + "yum -y install httpd\n"
+                        + "systemctl enable httpd\n"
+                        + "systemctl start httpd";
             }
             if (dro.get(i).getName().contains("Slave") && !dro.get(i).isLocked()) {
                 avDataCenters.add(dro.get(i).getRegion().getSlug());
@@ -176,7 +179,6 @@ public class AnalysisController extends AbstractController {
 
         if (Check == 0) {
             Thread.sleep(60000);
-             apiClient = new DigitalOceanClient("API TOKEN HERE");
             droplets = apiClient.getAvailableDroplets(1, null);
             dro = droplets.getDroplets();
             Droplet droplet = new Droplet();
@@ -209,15 +211,12 @@ public class AnalysisController extends AbstractController {
 
         for (int i = 0; i < IDs.size(); i++) {
             String path = getServletContext().getRealPath("/LogsFiles/") + IDs.get(i).toString();
-
-            // String path = "../LogsFiles/" + test.get(i);
             File file = new File(path);
 
             if (file.exists()) {
                 String[] KEYs = logAn.GetSerKey(IDs.get(i));
                 int LastID = logAn.GetLogId();
                 logAn.LogsAnalysis(path, KEYs[0], "00:00", LastID);
-                // file.delete();
 
                 Path path1 = Paths.get(path);
                 Files.delete(path1);
@@ -230,18 +229,9 @@ public class AnalysisController extends AbstractController {
     public void CheckStatus() throws DigitalOceanException, RequestUnsuccessfulException, SQLException {
         IDs = new ArrayList<Integer>();
         IDs1 = new ArrayList<Integer>();
-        DataCenters = new ArrayList<String>();
-        DataCenters.add("nyc1");
-        //DataCenters.add("lon1");
-        DataCenters.add("fra1");
-        // DataCenters.add("sgp1");
-        //DataCenters.add("ams2");
-        // DataCenters.add("tor1");
-         DataCenters.add("blr1");
         DataCenter1 = new ArrayList<String>();
         DataCenter1 = logAn.getActivDataCenter();
         IDs1 = logAn.getActivIDs();
-        apiClient = new DigitalOceanClient("API TOKEN HERE");
         droplets = apiClient.getAvailableDroplets(1, null);
         dro = droplets.getDroplets();
         Droplet droplet = new Droplet();
@@ -252,7 +242,7 @@ public class AnalysisController extends AbstractController {
                 dropLetId1 = droplet.getId();
                 status = droplet.getStatus().toString();
                 dataCenter = droplet.getRegion().getSlug();
-                    logAn.UpdateStatus(dropLetId1, status);
+                logAn.UpdateStatus(dropLetId1, status);
                 IDs.add(dropLetId1);
 
             }
