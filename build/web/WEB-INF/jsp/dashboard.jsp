@@ -107,6 +107,7 @@
                         ${server.longitude}
                     </td>
                 </tr>
+                <c:set var="counter" value="${counter+1}"/>
         </c:forEach>
         </table>
         <br>
@@ -115,29 +116,38 @@
         <table cellpadding="10" cellspacing="0">
             <tr>
                 <td>
-                    ipLogsId
+                    IP Log ID
                 </td>
                 <td>
-                    ip
+                    Attacker IP
                 </td>
                 <td>
-                    serverInfoId
+                    Attacker City
                 </td>
                 <td>
-                    date
+                    Attacker Country
                 </td>
                 <td>
-                    time
+                    Server IP
                 </td>
                 <td>
-                    userName
+                    Server DataCenter
                 </td>
                 <td>
-                    port
+                    Attacker Username
+                </td>
+                <td>
+                    Attacked Port
+                </td>
+                <td>
+                    Attacked date
+                </td>
+                <td>
+                    Attacked time
                 </td>
             </tr>
         <c:set var="counter" value="${1}"/>
-        <c:forEach items="${data.logs}" var="logs"> 
+        <c:forEach items="${data.logViewList}" var="logs"> 
             <c:choose>
                 <c:when test="${counter%2 == 1}">
                 <tr bgcolor="#ADD8E6">
@@ -150,22 +160,31 @@
                         ${logs.ipLogsId}
                     </td>
                     <td>
-                        ${logs.ip}
+                        ${logs.attackerIp}
                     </td>
                     <td>
-                        ${logs.serverInfoId}
+                        ${logs.attckerCity}
                     </td>
                     <td>
-                        ${logs.date}
+                        ${logs.attckerCountry}
                     </td>
                     <td>
-                        ${logs.time}
+                        ${logs.dropletIp}
                     </td>
                     <td>
-                        ${logs.userName}
+                        ${logs.dropletDataCenter}
                     </td>
                     <td>
-                        ${logs.port}
+                        ${logs.attackerUsername}
+                    </td>
+                    <td>
+                        ${logs.attackedPort}
+                    </td>
+                    <td>
+                        ${logs.attackDate}
+                    </td>
+                    <td>
+                        ${logs.attackTime}
                     </td>
                 </tr> 
                 <c:set var="counter" value="${counter+1}"/>
