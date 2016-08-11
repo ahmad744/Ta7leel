@@ -15,6 +15,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 
@@ -29,13 +31,13 @@ public class logAN {
     private ResultSet rs;
     BufferedReader in, in1;
     int count, check, count1 , ser;
-    String Time, DateY, DateM, DateD, IP, PORT, skip, UserName, x1, Date, currentZone;
+    String Time,Time3 ,  DateY, DateM, DateD, IP, PORT, skip, UserName, x1, Date, currentZone;
     LinkedList IPs;
     Object[] Info, Inf;
 
     public logAN() throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.jdbc.Driver");
-        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ip3", "root", "739185");
+        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ip3", "root", "AO-ip3");
         st = con.createStatement();
         in = null;
         in1 = null;
@@ -43,6 +45,7 @@ public class logAN {
         
         x1 = null;
         Time = null;
+        Time3 = null ;
         Date = null;
         DateY = "2016";
         DateM = null;
@@ -188,6 +191,16 @@ public class logAN {
         //System.out.println("id" +id );
         return id;
     }
+    
+    
+   public void UpdateStatus(int ID , String Status) throws SQLException{
+        
+        String selectSQL = "UPDATE ip3.server_info SET status = ? WHERE dropLetId LIKE "+ID;
+        PreparedStatement statement = con.prepareStatement(selectSQL);
+        statement.setString(1, Status);
+        statement.executeUpdate();
+        
+    }
 
     public void LogsAnalysis(String Path, String key, String zone, int idcount) throws IOException, SQLException {
         IPs = new LinkedList();
@@ -250,7 +263,8 @@ public class logAN {
                 }
                 idcount++;
                 InsertAllLine(IP, idcount, key, x1);
-                conTime(Time, zone, currentZone);
+                Time3 = Time;
+                Time = conTime(Time3, zone, currentZone);
                 Date = DateY + "/" + DateM + "/" + DateD;
 
                 if (IPs.Search(IP) == 0) {
@@ -287,6 +301,56 @@ public class logAN {
             }
         }
         // return count;
+    }
+    
+    
+    public List<Integer> getActivIDs() throws SQLException{
+       // ArrayList(int) list = new ArrayList();
+       List<Integer> list = new ArrayList<Integer>() ;
+       int i = 0;
+        String selectSQL = "SELECT dropLetId FROM ip3.server_info WHERE status != ?";
+        PreparedStatement statement = con.prepareStatement(selectSQL);
+        statement.setString(1, "destroyed");
+        rs = statement.executeQuery();
+
+        while (rs.next()) {
+        list.add(rs.getInt("dropLetId")); 
+        }
+        
+        return list;
+    }
+    
+    
+    public int getDublicateID(String dataCenter) throws SQLException{
+
+        String selectSQL = "SELECT dropLetId FROM ip3.server_info WHERE dataCenter LIKE ? AND status LIKE ?";
+        PreparedStatement statement = con.prepareStatement(selectSQL);
+        statement.setString(1, dataCenter);
+        statement.setString(2, "active");
+        rs = statement.executeQuery();
+        int IDD=0;
+        while (rs.next()) {
+       IDD = rs.getInt("dropLetId");
+        }
+        
+        return IDD;
+    }
+    
+    
+    public List<String> getActivDataCenter() throws SQLException{
+       // ArrayList(int) list = new ArrayList();
+       List<String> list = new ArrayList<String>() ;
+       int i = 0;
+        String selectSQL = "SELECT dataCenter FROM ip3.server_info WHERE status LIKE ?";
+        PreparedStatement statement = con.prepareStatement(selectSQL);
+        statement.setString(1, "active");
+        rs = statement.executeQuery();
+
+        while (rs.next()) {
+        list.add(rs.getString("dataCenter")); 
+        }
+        
+        return list;
     }
 
     public String conTime(String Time1, String zone, String czone) {
@@ -343,9 +407,9 @@ public class logAN {
                 }
             }
         }
-        Time = Integer.toString(t) + ":" + splt[1] + ":" + splt[2];
+        String Time2 = Integer.toString(t) + ":" + splt[1] + ":" + splt[2];
         DateD = Integer.toString(day);
-        return Time;
+        return Time2;
     }
 
 }
